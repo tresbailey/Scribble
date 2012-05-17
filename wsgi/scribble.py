@@ -7,7 +7,6 @@ import urlparse
 import uuid
 from flask import Flask, request, url_for, session, flash,\
     render_template
-from flask.ext.oauth import OAuth
 from flaskext.mongoalchemy import MongoAlchemy
 from mongoalchemy.document import Index
 from pymongo.objectid import ObjectId
