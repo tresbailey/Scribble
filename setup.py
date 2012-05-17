@@ -1,4 +1,5 @@
 from setuptools import setup
+import os
 
 fn = os.path.join(os.path.dirname(__file__), 'requirements.txt')
 reqs_list = list()
