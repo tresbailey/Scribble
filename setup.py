@@ -6,5 +6,5 @@ setup(name='YourAppName',
       author='Your Name',
       author_email='example@example.com',
       url='http://www.python.org/sigs/distutils-sig/',
-      install_requires=['flask==0.9', 'beautifulsoup4==4.0.5'],
+      install_requires=['flask', 'beautifulsoup4==4.0.5'],
      )
