@@ -1,7 +1,8 @@
 from setuptools import setup
 
+fn = os.path.join(os.path.dirname(__file__), 'requirements.txt')
 reqs_list = list()
-with open('requirements.txt', 'r') as reqs:
+with open(fn, 'r') as reqs:
     for line in reqs.readlines():
         reqs_list.append(line)
 
