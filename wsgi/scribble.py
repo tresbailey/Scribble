@@ -27,7 +27,7 @@ app.config['MONGOALCHEMY_SERVER'] = '127.2.89.129'
 app.config['MONGOALCHEMY_USER'] = 'root'
 app.config['MONGOALCHEMY_PASSWORD'] = 'dfycIr1uyG3g'
 app.config['MONGOALCHEMY_DATABASE'] = 'scribble'
-app.config['MONGOALCHEMY_SERVER_AUTH'] = True
+app.config['MONGOALCHEMY_SERVER_AUTH'] = False
 db = MongoAlchemy(app)
 
 class ScribData(db.Document):
