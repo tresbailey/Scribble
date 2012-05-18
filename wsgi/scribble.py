@@ -17,16 +17,12 @@ app = Flask(__name__, static_path='/static')
 app.debug = True
 app.secret_key = str(uuid.uuid1())
 
-env_url = os.environ.get('MONGOLAB_URI')
 
-host ='flame.mongohq.com'
-port = 27086
-database_name = 'app4322516'
-
-app.config['MONGOALCHEMY_SERVER'] = '127.2.89.129'
-app.config['MONGOALCHEMY_USER'] = 'root'
-app.config['MONGOALCHEMY_PASSWORD'] = 'dfycIr1uyG3g'
-app.config['MONGOALCHEMY_DATABASE'] = 'scribble'
+app.config['MONGOALCHEMY_SERVER'] = os.environ['OPENSHIFT_NOSQL_DB_HOST']
+app.config['MONGOALCHEMY_PORT'] = int(os.enviro['OPENSHIFT_NOSQL_DB_PORT']
+app.config['MONGOALCHEMY_USER'] = os.environ['OPENSHIFT_NOSQL_DB_USERNAME']
+app.config['MONGOALCHEMY_PASSWORD'] = os.environ['OPENSHIFT_NOSQL_DB_PASSWORD']
+app.config['MONGOALCHEMY_DATABASE'] = os.environ['OPENSHIFT_APP_NAME']
 app.config['MONGOALCHEMY_SERVER_AUTH'] = False
 db = MongoAlchemy(app)
 
