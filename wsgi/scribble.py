@@ -7,6 +7,7 @@ import urlparse
 import uuid
 from flask import Flask, request, url_for, session, flash,\
     render_template
+from flask.ext.oauth import OAuth
 from flaskext.mongoalchemy import MongoAlchemy
 from mongoalchemy.document import Index
 from pymongo.objectid import ObjectId
@@ -22,7 +23,11 @@ host ='flame.mongohq.com'
 port = 27086
 database_name = 'app4322516'
 
+app.config['MONGOALCHEMY_SERVER'] = '127.2.89.129'
+app.config['MONGOALCHEMY_USER'] = 'root'
+app.config['MONGOALCHEMY_PASSWORD'] = 'dfycIr1uyG3g'
 app.config['MONGOALCHEMY_DATABASE'] = 'scribble'
+app.config['MONGOALCHEMY_SERVER_AUTH'] = True
 db = MongoAlchemy(app)
 
 class ScribData(db.Document):
