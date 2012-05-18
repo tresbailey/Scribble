@@ -11,7 +11,6 @@ lxml==2.3.4
 nose==1.0.0
 oauth2==1.5.211
 pyOpenSSL==0.10
-pycryptsetup==0.0.11
 pymongo==2.1.1
 python-dateutil==1.5
 requests==0.11.1
