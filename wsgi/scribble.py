@@ -19,7 +19,7 @@ app.secret_key = str(uuid.uuid1())
 
 
 app.config['MONGOALCHEMY_SERVER'] = os.environ['OPENSHIFT_NOSQL_DB_HOST']
-app.config['MONGOALCHEMY_PORT'] = int(os.enviro['OPENSHIFT_NOSQL_DB_PORT'])
+app.config['MONGOALCHEMY_PORT'] = int(os.environ['OPENSHIFT_NOSQL_DB_PORT'])
 app.config['MONGOALCHEMY_USER'] = os.environ['OPENSHIFT_NOSQL_DB_USERNAME']
 app.config['MONGOALCHEMY_PASSWORD'] = os.environ['OPENSHIFT_NOSQL_DB_PASSWORD']
 app.config['MONGOALCHEMY_DATABASE'] = os.environ['OPENSHIFT_APP_NAME']
