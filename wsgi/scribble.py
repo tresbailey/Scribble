@@ -12,7 +12,7 @@ from flaskext.mongoalchemy import MongoAlchemy
 from mongoalchemy.document import Index
 from pymongo.objectid import ObjectId
 
-app = Flask(__name__, static_path='/static')
+app = Flask(__name__, static_url_path='/static')
 
 app.debug = True
 app.secret_key = str(uuid.uuid1())
