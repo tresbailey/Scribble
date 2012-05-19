@@ -71,7 +71,7 @@ function setup_overlay() {
             original_width: original_width
         }
         $.ajax({ 
-            url: 'http://localhost:5000/4f9ca5c0319d7d167c000000',
+            url: 'https://scrib-tresback.rhcloud.com/4fb5b83b51692b56c9000000',
             data: JSON.stringify(input),
             type: 'POST',
             contentType: 'application/json;charset=UTF-8',
