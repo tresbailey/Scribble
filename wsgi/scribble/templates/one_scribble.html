@@ -1,0 +1,26 @@
+<!doctype html>
+<title>One Scribble</title>
+<script src="https://scrib-tresback.rhcloud.com/static/starter-template_files/jquery.js"></script>
+
+{% if scrib %}
+    <iframe style="width: {{ scrib.original_width }}" id="base_frame"></iframe>
+    <h1>Base HTML</h1>
+    <div id="html_string">{{ scrib.base_html }}</div>
+    <h1>Canvas Data</h1>
+    <div>{{ scrib.canvas_data }}</div>
+    <h1>Marks Points</h1>
+    <div>{{scrib.marks_points }}</div>
+    <h1>Image Data</h1>
+    <img id="image_data_ele" src="{{ scrib.image_data }}"/>
+{% endif %}
+<script>
+$(document).ready(function() {
+    el = $('body', $('iframe').contents());
+    el.html($('<div />', {html: $('#html_string')}).text());
+    $('iframe').height(el.height());
+    $('iframe').width('{{scrib.original_width }}');
+    frame_offset = $('#base_frame').offset();
+    $('#image_data_ele').css({position: 'absolute', left: frame_offset.left, top: frame_offset.top,
+                            height: el.height(), width: el.width()});
+});
+</script>

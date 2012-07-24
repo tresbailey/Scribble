@@ -10,7 +10,7 @@ script.onload = callback;
 head.appendChild(script);
 }
 var runJQueryScripts = function() {
-    $.ajax({ url: 'http://localhost:5000/static/scribble_overlay.html',
+    $.ajax({ url: 'http://localhost:5000/scribble_overlay',
             type: 'GET',
             cache: false,
             success: function( htmll ) {
