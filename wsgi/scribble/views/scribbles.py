@@ -58,7 +58,7 @@ def return_overlay(page_name):
     # home = 'https://scrib-tresback.rhcloud.com'
     page_width = request.args.get('width')
     page_height = request.args.get('height')
-    return render_template(page_name, home='http://localhost:5000', 
+    return render_template(page_name, home='https://scrib-tresback.rhcloud.com', 
             page_width=page_width, page_height=page_height)
 
 
