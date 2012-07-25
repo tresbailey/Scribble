@@ -24,6 +24,7 @@ def add_headers(response):
         response.headers['Content-Type'] = 'application/json'
     response.headers.add_header('Access-Control-Allow-Origin', '*')
     response.headers.add_header('Access-Control-Allow-Headers', 'Content-Type')
+    print 'response headers are %s' % response.headers
     return response
 
 #TODO move this back to storage.__init__
