@@ -13,6 +13,7 @@ scribs = Blueprint('scribble_pages', __name__,
 
 @scribs.route('/<user_id>', methods=['POST'])
 def new_scribble(user_id):
+    print 'Got some request data from post' 
     base_html = request.data['base_html']
     base_url = request.data['base_url']
     base_html = make_soup(base_html, base_url)
@@ -23,9 +24,11 @@ def new_scribble(user_id):
                         base_html=base_html, base_url=base_url,
                         image_data=request.data.get('image_data'),
                         original_width=request.data.get('original_width'))
+    print 'Saving to mongodb'
     scribble.save()
     scribble = scribble.filter_out_fields([])
     scribble['mongo_id'] = str(scribble['mongo_id'])
+    print 'outputing scribble %s' % json.dumps(scribble)
     return json.dumps(scribble)
 
 @scribs.route('/static/<path:filename>')
