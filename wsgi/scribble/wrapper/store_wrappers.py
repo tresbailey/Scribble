@@ -61,15 +61,20 @@ def remove_scribble_elements(scribble_tag):
         tag.extract()
 
 def make_soup(base_html, base_url):
+    print "making a soup object"
     soup = BeautifulSoup(base_html, "lxml")    
+    print "finding tags with URL references"
     ref_tags = [modify_rels(tag, base_url) 
                     for tag  in soup.find_all() 
                         if find_all_ref_tags(tag)]
+    print "removing scribble elements"
     remove_scribble_elements(soup.find_all(id=
                                 'scribble_overlay'))
     remove_scribble_elements(soup.find_all('script')) 
+    print "finding all comments"
     comments = soup.findAll(text=lambda text:isinstance(text, Comment))
     [comment.extract() for comment in comments]
+    print "creating new tags"
     new_script = Tag(soup, name="script")
     body_css =  """
             html { zoom: .01 
@@ -83,6 +88,8 @@ def make_soup(base_html, base_url):
     """
     new_script.insert(0, body_css)
     new_script['type'] = 'text/css'
+    print "inserting new tags"
     soup.body.insert(0, new_script)
+    print "converting to unicode and return"
     return unicode(soup)
 
