@@ -63,7 +63,7 @@ def remove_scribble_elements(scribble_tag):
 def make_soup(base_html, base_url):
     print "making a soup object"
     soup = BeautifulSoup(base_html, "xml")    
-    print "finding tags with URL references"
+    print "finding tags with URL references, %s" % soup
     ref_tags = [modify_rels(tag, base_url) 
                     for tag  in soup.find_all() 
                         if find_all_ref_tags(tag)]
