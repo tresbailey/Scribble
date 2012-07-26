@@ -30,7 +30,7 @@ def new_scribble(user_id):
 
 @scribs.route('/static/<path:filename>')
 def send_foo_file(filename):
-    return send_from_directory('scribble/static', filename)
+    return send_from_directory('wsgi/scribble/static', filename)
 
 @scribs.route('/<user_id>')
 def my_scribbles(user_id):
