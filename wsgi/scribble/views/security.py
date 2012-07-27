@@ -1,6 +1,6 @@
 __author__ = 'tresback'
 
-from flask import Flask, request, url_for, session, flash,\
+from flask import Blueprint, request, url_for, session, flash,\
     render_template
 from flask.ext.oauth import OAuth
 from scribble import app
