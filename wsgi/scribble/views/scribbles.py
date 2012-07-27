@@ -9,7 +9,7 @@ from scribble.wrapper.store_wrappers import make_soup
 
 
 scribs = Blueprint('scribble_pages', __name__,
-        template_folder='templates', static_folder='static')
+        template_folder='scribble/templates', static_folder='scribble/static')
 
 @scribs.route('/<user_id>', methods=['POST'])
 def new_scribble(user_id):
