@@ -1,7 +1,7 @@
 __author__ = 'tresback'
 
 from flask import Blueprint, request, url_for, session, flash,\
-    render_template, lookup_url
+    render_template
 from flask.ext.oauth import OAuth
 
 oauth = OAuth()
@@ -45,7 +45,5 @@ def get_facebook_oauth_token():
 
 def external_url_handler(error, endpoint, **values):
     print "Endpoint is: %s" % endpoint
-    url = lookup_url(endpoint, **values)
-    print "URL is : %s" % url
 
 auths.build_error_handler = external_url_handler
