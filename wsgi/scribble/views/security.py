@@ -22,14 +22,12 @@ facebook = oauth.remote_app('facebook',
 @auths.route('/login')
 def login():
     return facebook.authorize(
-        callback=url_for('facebook_authorized',
-            next=request.args.get('next') or request.referrer or None,
-            _external=True))
+        callback=url_for('facebook_authorized'))
 
 
 @auths.route('/facebook-authorized')
 @facebook.authorized_handler
-def facebook_authorized(resp):
+def facebook_authorized():
     next_url = request.args.get('next')
     if resp is None:
         print 'Denied'
