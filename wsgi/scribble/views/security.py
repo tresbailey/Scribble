@@ -23,8 +23,7 @@ facebook = oauth.remote_app('facebook',
 def login():
     return facebook.authorize(
         callback=url_for('facebook_authorized',
-            next=request.args.get('next') or 
-            request.referrer or None,
+            next=request.args.get('next') or request.referrer or None,
             _external=True))
 
 
