@@ -11,6 +11,9 @@ from scribble.wrapper.store_wrappers import make_soup
 scribs = Blueprint('scribble_pages', __name__,
         template_folder='scribble/templates', static_folder='scribble/static')
 
+HOME_URL = 'http://localhost:5000'
+HOME_URL = 'https://scrib-tresback.rhcloud.com'
+
 @scribs.route('/<user_id>', methods=['POST'])
 def new_scribble(user_id):
     print 'Got some request data from post' 
@@ -31,9 +34,6 @@ def new_scribble(user_id):
     print 'outputing scribble %s' % json.dumps(scribble)
     return json.dumps(scribble)
 
-@scribs.route('/static/<path:filename>')
-def send_foo_file(filename):
-    return send_from_directory('wsgi/scribble/static', filename)
 
 @scribs.route('/<user_id>')
 def my_scribbles(user_id):
@@ -61,7 +61,7 @@ def return_overlay(page_name):
     # home = 'https://scrib-tresback.rhcloud.com'
     page_width = request.args.get('width')
     page_height = request.args.get('height')
-    return render_template(page_name, home='https://scrib-tresback.rhcloud.com', 
+    return render_template(page_name, home=HOME_URL, 
             page_width=page_width, page_height=page_height)
 
 
