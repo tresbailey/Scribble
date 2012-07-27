@@ -38,7 +38,9 @@ app.config['MONGOALCHEMY_SERVER_AUTH'] = False
 db = MongoAlchemy(app)
 
 from scribble.views.scribbles import scribs
+from scribble.views.security import auths
 app.register_blueprint(scribs)
+app.register_blueprint(auths)
 
 if __name__ == '__main__':
     app.run('127.0.0.1')

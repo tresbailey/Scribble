@@ -7,6 +7,9 @@ from scribble import app
 
 oauth = OAuth()
 
+auths = Blueprint('security_pages', __name__,
+        template_folder='templates', static_folder='static')
+
 facebook = oauth.remote_app('facebook',
     base_url='https://graph.facebook.com/',
     request_token_url=None,
@@ -16,7 +19,7 @@ facebook = oauth.remote_app('facebook',
     consumer_secret='43534fcacd8e1fda402ab611e913ae27'
 )
 
-@app.route('/login')
+@auths.route('/login')
 def login():
     return facebook.authorize(
         callback=url_for('facebook_authorized',
@@ -25,7 +28,7 @@ def login():
             _external=True))
 
 
-@app.route('/login/authorized')
+@auths.route('/login/authorized')
 @facebook.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
