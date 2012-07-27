@@ -9,7 +9,7 @@ from scribble.wrapper.store_wrappers import make_soup
 
 
 scribs = Blueprint('scribble_pages', __name__,
-        template_folder='scribble/templates', static_folder='scribble/simple')
+        template_folder='scribble/templates', static_folder='scribble/static')
 
 HOME_URL = 'http://localhost:5000'
 HOME_URL = 'https://scrib-tresback.rhcloud.com'
