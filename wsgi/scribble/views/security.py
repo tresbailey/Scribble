@@ -36,8 +36,6 @@ def facebook_authorized(resp):
         print 'Denied'
         flash('You were denied')
         return '401 Unauthorized'
-
-
     me = facebook.get('/me')
     print 'Success'
     flash('Successfully logged in')
