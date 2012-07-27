@@ -22,10 +22,10 @@ facebook = oauth.remote_app('facebook',
 @auths.route('/login')
 def login():
     return facebook.authorize(
-        callback=url_for('facebook_authorized',
+        callback=url_for('facebook_authorized'),
             next=request.args.get('next') or 
             request.referrer or None,
-            _external=True))
+            _external=True)
 
 
 @auths.route('/login/authorized')
