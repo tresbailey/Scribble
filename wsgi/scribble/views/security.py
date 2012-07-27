@@ -28,7 +28,7 @@ def login():
             _external=True))
 
 
-@auths.route('/login/authorized')
+@auths.route('/facebook-authorized')
 @facebook.authorized_handler
 def facebook_authorized(resp):
     next_url = request.args.get('next')
