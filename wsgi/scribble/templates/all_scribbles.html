@@ -35,24 +35,22 @@ $(document).ready(function() {
     for(var i=0; i < zipped.length; i++) {
         var zobj = zipped[i];
         inner = $({html: zobj[1]});
-        var canvas = zobj[0][0].contentDocument.createElement('canvas');
+        var el = $('body', zobj[0].contents());
+        el.html($('<div />', inner).text());
+        console.log(inner.children('#scribble_overlay').html());
+        console.log(el.children('#scribble_overlay').html());
+        var canvas = inner.children('#scribble_overlay canvas:first');
         var context = canvas.getContext('2d');
         var imageObj = new Image();
         imageObj.onload = function() {
             context.drawImage(this, 0, 0);
         };
-        $(zobj[0][0].contentDocument).append(canvas);
-        var el = $('body', zobj[0].contents());
-        // Build canvas with the image data saved
-        console.log($(inner[0]));
-        el.html($('<div />', inner).text());
+        imageObj.src = zobj[2];
         var factor = 450 / zobj[3];
         el.css({'zoom': factor});
         zobj[0].width('450px');
         frame_offset = zobj[0].offset();
         zobj[0].height('500px');
-        //zobj[2].css({position: 'absolute',
-        //                    height: el.height(), width: el.width(), zoom: factor});
     }
 });
 </script>
