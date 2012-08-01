@@ -37,9 +37,8 @@ $(document).ready(function() {
         inner = $({html: zobj[1]});
         var el = $('body', zobj[0].contents());
         el.html($('<div />', inner).text());
-        console.log(inner.children('#scribble_overlay').html());
         console.log(el.children('#scribble_overlay').html());
-        var canvas = inner.children('#scribble_overlay canvas:first');
+        var canvas = el.children("#scribble_overlay").children('div').children('canvas');
         var context = canvas.getContext('2d');
         var imageObj = new Image();
         imageObj.onload = function() {
