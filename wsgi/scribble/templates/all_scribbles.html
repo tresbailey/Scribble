@@ -39,7 +39,7 @@ $(document).ready(function() {
         el.html($('<div />', inner).text());
         console.log(el.children('#scribble_overlay').html());
         var canvas = el.children("#scribble_overlay").children('div').children('canvas');
-        var context = canvas.getContext('2d');
+        var context = canvas[0].getContext('2d');
         var imageObj = new Image();
         imageObj.onload = function() {
             context.drawImage(this, 0, 0);
