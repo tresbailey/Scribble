@@ -68,8 +68,8 @@ def make_soup(base_html, base_url):
                     for tag  in soup.find_all() 
                         if find_all_ref_tags(tag)]
     print "removing scribble elements"
-    remove_scribble_elements(soup.find_all(id=
-                                'scribble_overlay'))
+    #remove_scribble_elements(soup.find_all(id=
+    #                            'scribble_overlay'))
     remove_scribble_elements(soup.find_all('script')) 
     print "finding all comments"
     comments = soup.findAll(text=lambda text:isinstance(text, Comment))
