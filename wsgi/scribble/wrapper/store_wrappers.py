@@ -18,6 +18,7 @@ def modify_path(path, tag_path):
 
 
 def modify_rels(tag, base_url):
+    print 'Tag is has base_url of %s' % base_url
     parsed = urlparse.urlparse(base_url)                    
     path = [res for res in parsed.path.split('/') if res]
     # Attrs that would have a relative path
@@ -26,34 +27,39 @@ def modify_rels(tag, base_url):
     attr = tag_attr.get(tag.name)
     if attr is not None:
         tag_val = tag.get(attr)
-        new_path = parse_path(path, tag_val)
-        new_url = urlparse.urlunsplit((parsed.scheme, 
-                                       parsed.netloc,
-                                       '/'.join(new_path), '', ''))
-        tag[attr] = str(new_url)
+        new_path = parse_path(path, tag_val, parsed)
+        print 'old url is %s -- new url is %s' % (tag_val, new_path)
+        tag[attr] = str(new_path)
     if tag.get('style') is not None:
         # Must be something with a url() style reference
         def style_callb(match):
             rel_path = match.group(1).lstrip("'").rstrip("'")
-            new_path = parse_path(path, rel_path)
-            return "url('%s')" % urlparse.urlunsplit((parsed.scheme, 
-                                           parsed.netloc,
-                                           '/'.join(new_path), '', ''))
+            new_path = parse_path(path, rel_path, parsed)
+            return "url('%s')" % new_path
         style_links = re.sub('url\((.*?)\)', style_callb,
                              tag.get('style'))
         tag['style'] = style_links
+    print 'Tag has been replaced as %s' % tag
     return tag
 
 
-def parse_path(path, tag_val):
+def parse_path(path, tag_val, parsed):
     up_dirs = re.findall('\.\.\/', tag_val)
     if up_dirs:
         for up in up_dirs:
             path.pop()
         path = modify_path(path, tag_val)
+        path = urlparse.urlunsplit((parsed.scheme, 
+                                       parsed.netloc,
+                                       '/'.join(path), '', ''))
     elif re.findall('\.\/', tag_val) or \
          re.findall(r'^(?!http://)', tag_val):
         path = modify_path(path, tag_val)
+        path = urlparse.urlunsplit((parsed.scheme, 
+                                       parsed.netloc,
+                                       '/'.join(path), '', ''))
+    elif re.findall(r'^(https://)', tag_val) or re.findall(r'^(http://)', tag_val):
+        path = tag_val
     return path
 
 def remove_scribble_elements(scribble_tag):

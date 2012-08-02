@@ -9,7 +9,7 @@ from scribble.wrapper.store_wrappers import make_soup
 
 
 scribs = Blueprint('scribble_pages', __name__,
-        template_folder='scribble/templates', static_folder='wsgi/scribble/static')
+        template_folder='scribble/templates', static_folder='static')
 
 HOME_URL = 'http://localhost:5000'
 HOME_URL = 'https://scrib-tresback.rhcloud.com'
@@ -31,7 +31,6 @@ def new_scribble(user_id):
     scribble.save()
     scribble = scribble.filter_out_fields([])
     scribble['mongo_id'] = str(scribble['mongo_id'])
-    print 'outputing scribble %s' % json.dumps(scribble)
     return json.dumps(scribble)
 
 
