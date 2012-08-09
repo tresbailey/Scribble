@@ -80,9 +80,9 @@ def make_soup(base_html, base_url):
     print "finding all comments"
     comments = soup.findAll(text=lambda text:isinstance(text, Comment))
     [comment.extract() for comment in comments]
+    """
     print "creating new tags"
     new_script = Tag(soup, name="script")
-    body_css =  """
             html { zoom: .01 
                 -moz-transform: scale(0.75);
                     -moz-transform-origin: 0 0;
@@ -91,11 +91,11 @@ def make_soup(base_html, base_url):
                                 -webkit-transform: scale(0.75);
                                     -webkit-transform-origin: 0 0;
             }
-    """
     new_script.insert(0, body_css)
     new_script['type'] = 'text/css'
     print "inserting new tags"
     soup.body.insert(0, new_script)
+    """
     print "converting to unicode and return"
     return unicode(soup)
 

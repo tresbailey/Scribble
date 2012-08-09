@@ -3,11 +3,11 @@
 <script src="{{ home }}/static/starter-template_files/jquery.js"></script>
 
 {% if scrib %}
-<div style="float: left; margin-left: 50px;">
+<div style="float: left; margin-left: -10px;">
     <iframe class="base_frame"></iframe>
-    <img style="border: 1px solid black; display: none" class="image_data_ele" src="{{ scrib.image_data }}"/>
+    <img style="display: none" class="image_data_ele" src="{{ scrib.image_data }}"/>
     <div class="base_html">{{scrib.base_html }}</div>
-    <div class="orig_width">{{ scrib.original_width }}</div>
+    <div class="orig_width" style="display: none">{{ scrib.original_width }}</div>
 </div>
 {% endif %}
 <script>
