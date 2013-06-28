@@ -7,7 +7,7 @@ from flask import Flask, request, url_for, session, flash,\
     render_template
 import os
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 app.debug = True
 app.secret_key = str(uuid.uuid1())
 

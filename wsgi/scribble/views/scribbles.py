@@ -12,7 +12,6 @@ scribs = Blueprint('scribble_pages', __name__,
         template_folder='scribble/templates', static_folder='static')
 
 HOME_URL = 'http://localhost:5000'
-HOME_URL = 'https://scrib-tresback.rhcloud.com'
 
 @scribs.route('/<user_id>', methods=['POST'])
 def new_scribble(user_id):
@@ -48,6 +47,8 @@ def my_scribbles(user_id):
 
 @scribs.route('/<user_id>/<scribble_id>')
 def one_scribble(user_id, scribble_id):
+    import pdb
+    pdb.set_trace()
     scribble = Scribble.query.filter(
                 Scribble.user_id == user_id,
                 Scribble.mongo_id == ObjectId(scribble_id)
