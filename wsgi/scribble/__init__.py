@@ -31,12 +31,12 @@ def add_headers(response):
     return response
 
 #TODO move this back to storage.__init__
-app.config['MONGOALCHEMY_SERVER'] = os.environ.get('OPENSHIFT_NOSQL_DB_HOST', 'localhost')
-app.config['MONGOALCHEMY_PORT'] = int(os.environ.get('OPENSHIFT_NOSQL_DB_PORT', 27017))
-app.config['MONGOALCHEMY_USER'] = os.environ.get('OPENSHIFT_NOSQL_DB_USERNAME')
-app.config['MONGOALCHEMY_PASSWORD'] = os.environ.get('OPENSHIFT_NOSQL_DB_PASSWORD')
-app.config['MONGOALCHEMY_DATABASE'] = os.environ.get('OPENSHIFT_APP_NAME', 'scribble')
-app.config['MONGOALCHEMY_SERVER_AUTH'] = False
+app.config['MONGOALCHEMY_SERVER'] = os.environ.get('OPENSHIFT_MONGODB_DB_HOST', 'localhost')
+app.config['MONGOALCHEMY_PORT'] = int(os.environ.get('OPENSHIFT_MONGODB_DB_PORT', 27017))
+app.config['MONGOALCHEMY_DATABASE'] = os.environ.get('MONGO_DB', 'scribble')
+app.config['MONGOALCHEMY_USER'] = os.environ.get('OPENSHIFT_MONGODB_DB_USERNAME')
+app.config['MONGOALCHEMY_PASSWORD'] = os.environ.get('OPENSHIFT_MONGODB_DB_PASSWORD')
+app.config['MONGOALCHEMY_SERVER_AUTH'] = True
 
 db = MongoAlchemy(app)
 
@@ -59,8 +59,8 @@ def make_celery(app):
     """
     return celery
 
-app.config['CELERY_BROKER_URL'] = 'mongodb://localhost:27017/celery_tasks'
-app.config['CELERY_RESULT_BACKEND'] = 'mongodb://localhost:27017/celery_tasks'
+app.config['CELERY_BROKER_URL'] = 'mongodb://'+ app.config['MONGOALCHEMY_SERVER'] +':'+ app.config['MONGOALCHEMY_PORT']  +'/celery_tasks'
+app.config['CELERY_RESULT_BACKEND'] = 'mongodb://'+ app.config['MONGOALCHEMY_SERVER'] +':'+ app.config['MONGOALCHEMY_PORT']  +'/celery_tasks'
 celery = make_celery(app)
 
 from scribble.views.scribbles import scribs
