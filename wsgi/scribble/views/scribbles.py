@@ -15,6 +15,7 @@ scribs = Blueprint('scribble_pages', __name__,
         template_folder='scribble/templates', static_folder='static')
 
 HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
+PHANTOM_HOME = os.getenv('OPENSHIFT_PHANTOM_DIR', '/home/tres/phantom/phantomjs-1.9.1-linux-x86_64/')
 
 def request_for_json():
     best = request.accept_mimetypes \
@@ -29,7 +30,7 @@ def create_capture(capture_id, scribble_id, args, kwargs):
     #scribble_url = url_for(*args, **kwargs)
     print "capture: %s " % capture_id
     scribble_url = 'https://' HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
-    driver = webdriver.PhantomJS("/home/tres/phantom/phantomjs-1.9.1-linux-x86_64/bin/phantomjs")
+    driver = webdriver.PhantomJS( PHANTOM_HOME + "bin/phantomjs")
     driver.get(scribble_url)
     scribble = Scribble.query.filter(
                 Scribble.mongo_id == ObjectId(scribble_id)
