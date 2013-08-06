@@ -59,8 +59,8 @@ def make_celery(app):
     """
     return celery
 
-app.config['CELERY_BROKER_URL'] = 'mongodb://'+ app.config['MONGOALCHEMY_SERVER'] +':'+ app.config['MONGOALCHEMY_PORT']  +'/celery_tasks'
-app.config['CELERY_RESULT_BACKEND'] = 'mongodb://'+ app.config['MONGOALCHEMY_SERVER'] +':'+ app.config['MONGOALCHEMY_PORT']  +'/celery_tasks'
+app.config['CELERY_BROKER_URL'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
+app.config['CELERY_RESULT_BACKEND'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
 celery = make_celery(app)
 
 from scribble.views.scribbles import scribs
