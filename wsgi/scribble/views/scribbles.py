@@ -29,7 +29,7 @@ def request_for_json():
 def create_capture(capture_id, scribble_id, args, kwargs):
     #scribble_url = url_for(*args, **kwargs)
     print "capture: %s " % capture_id
-    scribble_url = 'https://' HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
+    scribble_url = 'https://' + HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
     driver = webdriver.PhantomJS( PHANTOM_HOME + "bin/phantomjs")
     driver.get(scribble_url)
     scribble = Scribble.query.filter(
