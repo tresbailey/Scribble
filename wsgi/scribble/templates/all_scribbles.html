@@ -1,65 +1,12 @@
 <!doctype html>
 <title>One Scribble</title>
 <script src="{{ home}}/static/starter-template_files/jquery.js"></script>
-<style type="text/css">
-</style>
 {% for scrib in scribbles %}
-<a href="{{ home }}/{{ scrib.user_id }}/{{ scrib.mongo_id }}">
-    Open:
-</a>
-<div style="float: left; margin-left: 50px;">
-    <iframe class="base_frame"></iframe>
-    <img style="border: 1px solid black; display: none" class="image_data_ele" src="{{ scrib.image_data }}"/>
-    <div class="base_html">{{scrib.base_html }}</div>
-    <div class="orig_width">{{ scrib.original_width }}</div>
-</div>
+    {% if scrib.scrib_shot %}
+    SCRIB_SHOT: {{scrib.scrib_shot}}
+    <a href="{{ home }}/{{ scrib.user_id }}/{{ scrib.mongo_id }}">
+        <div style="background-size: 100% auto; background-repeat: no-repeat; background-image: url('{{home}}/{{scrib.user_id}}/captures/{{scrib.scrib_shot}}'); width: 300px; height: 300px">&nbsp;</div>
+    </a>
+    {% endif %}
 {% endfor %}
 
-<script>
-
-    function load_scribble_frame(zobj) {
-        var inner = $({html: zobj[1]});
-        var el = $('body', zobj[0].contents());
-        inner.css({ zoom: .01,
-                "-moz-transform": "scale(0.75)",
-                "-moz-transform-origin": "0 0",
-                "-o-transform": "scale(0.75)",
-                "-o-transform-origin": "0 0",
-                "-webkit-transform": "scale(0.75)",
-                "-webkit-transform-origin": "0 0"
-        });
-        el.html($('<div />', inner).text());
-        var canvas = el.children("#scribble_overlay").children('div').children('canvas');
-        var context = canvas[0].getContext('2d');
-        var imageObj = new Image();
-        imageObj.onload = function() {
-            context.drawImage(this, 0, 0);
-        };
-        imageObj.src = $(zobj[2]).attr('src');
-        var factor = 450 / zobj[3];
-        zobj[0].width('450px');
-        frame_offset = zobj[0].offset();
-        zobj[0].height('500px');
-    }
-
-$(document).ready(function() {
-    var index = 0;
-    var zipped = [];
-    $('.base_frame').each(function() {
-        zipped.push([$(this)]);
-    });
-    $('.base_html').each(function(index) {
-        zipped[index].push($(this));
-    });
-    $('.image_data_ele').each(function(index) {
-        zipped[index].push($(this));
-    });
-    $('.orig_width').each(function(index) {
-        zipped[index].push($(this).text());
-    });
-    for(var i=0; i < zipped.length; i++) {
-        load_scribble_frame(zipped[i]);
-    }
-
-});
-</script>

@@ -1,11 +1,14 @@
 __author__ = 'tresback'
 
+from celery import Celery
 import json
 import uuid
 from flaskext.mongoalchemy import MongoAlchemy
 from flask import Flask, request, url_for, session, flash,\
     render_template
+from gridfs import GridFS
 import os
+from scribble import celeryconfig
 
 app = Flask(__name__)
 app.debug = True
@@ -37,10 +40,33 @@ app.config['MONGOALCHEMY_SERVER_AUTH'] = False
 
 db = MongoAlchemy(app)
 
+scrib_shots = db.session.db.connection.scribble_shots
+scrib_grid = GridFS(scrib_shots)
+
+def make_celery(app):
+    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    """
+    TaskBase = celery.Task
+    class ContextTask(TaskBase):
+        abstract = True
+        def __call__(self, *args, **kwargs):
+            import pdb
+            pdb.set_trace()
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    """
+    return celery
+
+app.config['CELERY_BROKER_URL'] = 'mongodb://localhost:27017/celery_tasks'
+app.config['CELERY_RESULT_BACKEND'] = 'mongodb://localhost:27017/celery_tasks'
+celery = make_celery(app)
+
 from scribble.views.scribbles import scribs
 from scribble.views.security import auths
 app.register_blueprint(scribs)
 app.register_blueprint(auths)
 
 if __name__ == '__main__':
-    app.run('127.0.0.1')
+    app.run('127.0.0.1', threaded=True)

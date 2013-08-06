@@ -29,5 +29,6 @@ class Scribble(ScribData):
     base_url = db.StringField()
     image_data = db.StringField()
     original_width = db.IntField()
+    scrib_shot = db.ObjectIdField(allow_none=True)
     user_index = Index().ascending('user_id')
     tags_index = Index().ascending('tags')

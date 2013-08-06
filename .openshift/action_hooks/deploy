@@ -3,3 +3,12 @@
 # build hook has been run but before the application has been started back
 # up again.  This script gets executed directly, so it could be python, php,
 # ruby, etc.
+
+echo "RUNNING THE DEPLOY HOOK"
+
+app_name='writeown'
+
+if [ -n "${OPENSHIFT_GEAR_DNS:+x}" ]; then
+
+    echo "var BASEURL='https://${OPENSHIFT_GEAR_DNS}'" > $OPENSHIFT_REPO_DIR/wsgi/scribble/static/js/base_url.js 
+fi

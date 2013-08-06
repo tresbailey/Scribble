@@ -10,7 +10,7 @@ script.onload = callback;
 head.appendChild(script);
 }
 var runJQueryScripts = function() {
-    $.ajax({ url: BASEURL + '/page/scribble_overlay.html?width='+$('body').width()+'&height='+$('body').height(),
+    $.ajax({ url: BASEURL+'/scribble_overlay',
             type: 'GET',
             cache: false,
             success: function( htmll ) {
@@ -23,11 +23,10 @@ var runJQueryScripts = function() {
                         'width': $('body').width()
                 });
                 $('body').append(load);
-                $.getScript(BASEURL + '/page/page_setup.js', function(data, textstatus, jxhr) {
+                $.getScript(BASEURL + '/static/js/page_setup.js', function(data, textstatus, jxhr) {
                     setup_overlay();
                 });
             }
     });
 };
 loadScript('http://code.jquery.com/jquery-1.7.2.min.js', runJQueryScripts);
-})()

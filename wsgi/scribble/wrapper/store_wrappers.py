@@ -1,6 +1,6 @@
 __author__ = 'tresback'
 
-from bs4 import BeautifulSoup, Comment, Tag
+from bs4 import BeautifulSoup, Comment, Tag, NavigableString
 import re
 import urlparse
 
@@ -21,14 +21,16 @@ def modify_rels(tag, base_url):
     print 'Tag is has base_url of %s' % base_url
     parsed = urlparse.urlparse(base_url)                    
     path = [res for res in parsed.path.split('/') if res]
+    path.pop()
     # Attrs that would have a relative path
     tag_attr = dict(img='src', script='src', a='href',
                     link='href')
     attr = tag_attr.get(tag.name)
     if attr is not None:
         tag_val = tag.get(attr)
+        print 'old url is %s' % path
         new_path = parse_path(path, tag_val, parsed)
-        print 'old url is %s -- new url is %s' % (tag_val, new_path)
+        print 'old url is %s -- new url is %s' % (path, new_path)
         tag[attr] = str(new_path)
     if tag.get('style') is not None:
         # Must be something with a url() style reference
@@ -45,6 +47,9 @@ def modify_rels(tag, base_url):
 
 def parse_path(path, tag_val, parsed):
     up_dirs = re.findall('\.\.\/', tag_val)
+
+    print "PATH: %s" % path
+
     if up_dirs:
         for up in up_dirs:
             path.pop()
@@ -52,21 +57,33 @@ def parse_path(path, tag_val, parsed):
         path = urlparse.urlunsplit((parsed.scheme, 
                                        parsed.netloc,
                                        '/'.join(path), '', ''))
+    elif re.findall(r'^(https:\/\/)', tag_val) or re.findall(r'^(http:\/\/)', tag_val) or \
+        re.findall(r'^(\/\/)', tag_val):
+        path = tag_val
     elif re.findall('\.\/', tag_val) or \
-         re.findall(r'^(?!http://)', tag_val):
+        re.findall(r'^(?!https:\/\/)', tag_val)  or \
+        re.findall(r'^(?!http:\/\/)', tag_val):
         path = modify_path(path, tag_val)
         path = urlparse.urlunsplit((parsed.scheme, 
                                        parsed.netloc,
                                        '/'.join(path), '', ''))
-    elif re.findall(r'^(https://)', tag_val) or re.findall(r'^(http://)', tag_val):
-        path = tag_val
     return path
+
 
 def remove_scribble_elements(scribble_tag):
     for tag in scribble_tag:
         tag.extract()
 
-def make_soup(base_html, base_url):
+
+def add_scribble_canvas(soup_obj, user_id, scribble_id):
+    with open("scribble/static/js/load_canvas.js") as scribjs:
+        script_tag = Tag(soup_obj, name="script")
+        script_text = NavigableString(scribjs.read().format( user_id, scribble_id))
+        script_tag.insert(0, script_text)
+        soup_obj.body.insert(-1, script_tag)
+
+
+def make_soup(base_html, base_url, user_id, scribble_id):
     print "making a soup object"
     soup = BeautifulSoup(base_html, "html.parser")    
     print "finding tags with URL references, %s" % soup
@@ -80,22 +97,7 @@ def make_soup(base_html, base_url):
     print "finding all comments"
     comments = soup.findAll(text=lambda text:isinstance(text, Comment))
     [comment.extract() for comment in comments]
-    """
-    print "creating new tags"
-    new_script = Tag(soup, name="script")
-            html { zoom: .01 
-                -moz-transform: scale(0.75);
-                    -moz-transform-origin: 0 0;
-                        -o-transform: scale(0.75);
-                            -o-transform-origin: 0 0;
-                                -webkit-transform: scale(0.75);
-                                    -webkit-transform-origin: 0 0;
-            }
-    new_script.insert(0, body_css)
-    new_script['type'] = 'text/css'
-    print "inserting new tags"
-    soup.body.insert(0, new_script)
-    """
+    add_scribble_canvas(soup, user_id, scribble_id)
     print "converting to unicode and return"
     return unicode(soup)
 
