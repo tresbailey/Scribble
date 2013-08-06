@@ -14,7 +14,7 @@ from scribble.wrapper.store_wrappers import make_soup
 scribs = Blueprint('scribble_pages', __name__,
         template_folder='scribble/templates', static_folder='static')
 
-HOME_URL = 'http://localhost:5000'
+HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
 
 def request_for_json():
     best = request.accept_mimetypes \
@@ -28,7 +28,7 @@ def request_for_json():
 def create_capture(capture_id, scribble_id, args, kwargs):
     #scribble_url = url_for(*args, **kwargs)
     print "capture: %s " % capture_id
-    scribble_url = 'http://localhost/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
+    scribble_url = 'https://' HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
     driver = webdriver.PhantomJS("/home/tres/phantom/phantomjs-1.9.1-linux-x86_64/bin/phantomjs")
     driver.get(scribble_url)
     scribble = Scribble.query.filter(
