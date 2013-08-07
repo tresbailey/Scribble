@@ -3,3 +3,6 @@
 # available.  Otherwise it will execute while your application is stopped
 # before the deploy step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
+echo "RUNNING MY PRESTART HOOK FOR CELERY"
+OPENSHIFT_CELERY_IMPORTS="scribble.views.scribbles"
+echo "CELERY IMPORTS ARE: $OPENSHIFT_CELERY_IMPORTS"
