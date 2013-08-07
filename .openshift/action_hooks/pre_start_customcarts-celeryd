@@ -1,4 +1,7 @@
 #!/bin/bash
 
 echo "RUNNING MY PRESTART HOOK FOR CELERY"
-export OPENSHIFT_CELERY_IMPORTS="scribble.views.scribbles"
+declare -x OPENSHIFT_CELERY_IMPORTS='scribble.views.scribbles'
+export OPENSHIFT_CELERY_IMPORTS='scribble.views.scribbles'
+OPENSHIFT_CELERY_IMPORTS='scribble.views.scribbles'
+export OPENSHIFT_CELERY_IMPORTS
