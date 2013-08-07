@@ -4,3 +4,5 @@
 # before the build step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
 
+echo "RUNNING MY PRESTART HOOK FOR CELERY"
+export OPENSHIFT_CELERY_IMPORTS="scribble.views.scribbles"
