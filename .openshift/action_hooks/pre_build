@@ -5,5 +5,7 @@
 # could be python, php, ruby, etc.
 
 echo "RUNNING MY PRESTART HOOK FOR CELERY"
-OPENSHIFT_CELERY_IMPORTS="scribble.views.scribbles"
+source myenv.sh
+
+export
 echo "CELERY IMPORTS ARE: $OPENSHIFT_CELERY_IMPORTS"

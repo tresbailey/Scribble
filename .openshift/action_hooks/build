@@ -4,5 +4,5 @@
 # before the deploy step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
 echo "RUNNING MY PRESTART HOOK FOR CELERY"
-declare -x  OPENSHIFT_CELERY_IMPORTS="scribble.views.scribbles"
+source myenv.sh
 echo "CELERY IMPORTS ARE: $OPENSHIFT_CELERY_IMPORTS"
