@@ -2,8 +2,6 @@ import os
 
 print 'Configuring celery cartridge with client override'
 
-app.config['MONGOALCHEMY_SERVER'] = os.environ.get('', 'localhost')
-app.config['MONGOALCHEMY_PORT'] = int(os.environ.get('', 27017))
 ## Broker settings.
 BROKER_URL = 'mongodb://%s:%d/celery_tasks' % (os.environ.get('OPENSHIFT_MONGODB_DB_HOST'), os.environ.get('OPENSHIFT_MONGODB_DB_PORT'))
 
