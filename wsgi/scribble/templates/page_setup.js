@@ -36,27 +36,26 @@ function init() {
     firstLoad = true;
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext("2d");
-    stage = new Stage(canvas);
-    oldPosition = new Point(stage.mouseX, stage.mouseY);
+    stage = new createjs.Stage(canvas);
+    oldPosition = new createjs.Point(stage.mouseX, stage.mouseY);
     stage.autoClear = true;
-    stage.onMouseDown = handleMouseDown;
-    stage.onMouseUp = handleMouseUp;
-
+    stage.addEventListener("stagemousedown", handleMouseDown) ;
+    stage.addEventListener("stagemouseup", handleMouseUp); 
     canvasOffset = $(canvas).offset();
 
-    Touch.enable(stage);
+    createjs.Touch.enable(stage);
 
     stage.update();
-    Ticker.addListener(window);
+    createjs.Ticker.addListener(window);
 }
 
 function stop() {
-    Ticker.removeListener(window);
+    createjs.Ticker.removeListener(window);
 }
 function tick() {
     if (isMouseDown) {
-        var pt = new Point(stage.mouseX, stage.mouseY);
-        var midPoint = new Point(oldX + pt.x>>1, oldY+pt.y>>1);
+        var pt = new createjs.Point(stage.mouseX, stage.mouseY);
+        var midPoint = new createjs.Point(oldX + pt.x>>1, oldY+pt.y>>1);
         currentShape.graphics.moveTo(midPoint.x, midPoint.y);
         currentShape.graphics.curveTo(oldX, oldY, oldMidX, oldMidY);
         currentShape.draw(ctx);
@@ -75,7 +74,7 @@ function handleMouseDown() {
     if (freehand) {
         isMouseDown = true;
         firstLoad = false;
-        var s = new Shape();
+        var s = new createjs.Shape();
         oldX = stage.mouseX;
         oldY = stage.mouseY;
         oldMidX = stage.mouseX;
@@ -83,7 +82,7 @@ function handleMouseDown() {
         var g = s.graphics;
         var thickness = 2;
         g.setStrokeStyle(thickness + 1, 'round', 'round');
-        selectedColor = Graphics.getRGB(0, 0, 0);
+        selectedColor = createjs.Graphics.getRGB(0, 0, 0);
         g.beginStroke(selectedColor);
         stage.addChild(s);
         currentShape = s;
@@ -94,6 +93,7 @@ function handleMouseUp() {
     isMouseDown = false;
 }
 function setup_overlay() {
+if ( createjs) {
     init();
     $('#myCanvas').click(function(e) {
         if(!freehand) {
@@ -144,6 +144,7 @@ function setup_overlay() {
         });
     });
 }
+}
 
 function scrape_pixels() {
     var cheight = $('#myCanvas').height();
@@ -158,7 +159,7 @@ function drawCircle(xPos, yPos) {
 //http://falcon80.com/HTMLCanvas/BasicShapes/Circle.html
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
-	shape = new Shape();
+	shape = new createjs.Shape();
 	shape.graphics.beginFill('#ff0000').drawCircle(0,0,circleRadius);
 	shape.graphics.beginFill('#ffffff').drawCircle(0,0,circleRadius*0.8);
 	shape.graphics.beginFill('#ff0000').drawCircle(0,0,circleRadius*0.6);

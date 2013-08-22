@@ -23,6 +23,12 @@ var runJQueryScripts = function() {
                         'width': $('body').width()
                 });
                 $('body').append(load);
+                console.log("Scripts: "+ $(load).children("script"));
+                $(load).children("script").each(function( index,script ) {
+                    $.getScript(script.attr('src'), function(data, textStatus, jxhr) {
+                        console.log("Loaded script: "+ script.attr('src'));
+                    });
+                });
                 $.getScript(BASEURL + '/page/page_setup.js', function(data, textstatus, jxhr) {
                     setup_overlay();
                 });

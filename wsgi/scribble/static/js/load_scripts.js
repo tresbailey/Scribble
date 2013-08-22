@@ -1,3 +1,4 @@
+// DEPRECATED!!!!!
 function loadScript(url, callback){
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
@@ -10,7 +11,8 @@ function loadScript(url, callback){
 
 var runJQueryScripts = function() {    
 $.ajax({ 
-    url: BASEURL + '/page/scribble_overlay.html?width='+$('body').width()+'&height='+$('body').height(),            
+    // Causes problems between environments
+    url: 'http://localhost/page/scribble_overlay.html?width='+$('body').width()+'&height='+$('body').height(),            
     type: 'GET',            
     cache: false,            
     success: function( htmll ) {                
@@ -24,7 +26,8 @@ $.ajax({
             'width': $('body').width()                
         });                
         $('body').append(load);                
-        $.getScript(BASEURL + 'page/page_setup.js', function(data, textstatus, jxhr) {                    
+    // Causes problems between environments
+        $.getScript('http://localhost/page/page_setup.js', function(data, textstatus, jxhr) {                    
             setup_overlay();                
         });
     }    

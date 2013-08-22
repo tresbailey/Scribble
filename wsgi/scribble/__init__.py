@@ -63,6 +63,11 @@ app.config['CELERY_BROKER_URL'] = 'mongodb://%s:%d/celery_tasks' % (app.config['
 app.config['CELERY_RESULT_BACKEND'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
 celery = make_celery(app)
 
+HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
+
+if 'http' not in HOME_URL:
+    HOME_URL = "https://%s" % HOME_URL
+
 from scribble.views.scribbles import scribs
 from scribble.views.security import auths
 app.register_blueprint(scribs)

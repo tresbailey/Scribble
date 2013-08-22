@@ -1,16 +1,7 @@
-function loadScript(url, callback){{
-    var head = document.getElementsByTagName('head')[0];
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = url;
-    script.onreadystatechange = callback;
-    script.onload = callback;
-    head.appendChild(script);
-}}
-
 var runJQueryScripts = function() {{    
 $.ajax({{ 
-    url: BASEURL + '/{0}/{1}/canvas',
+    // Causes problems between environments
+    url: 'http:///localhost/{0}/{1}/canvas',
     type: 'GET',            
     cache: false,            
     success: function( htmll ) {{                
@@ -24,4 +15,7 @@ imageObj.src = htmll;
     }}    
 }});
 }}
-loadScript('//code.jquery.com/jquery-1.7.2.min.js', runJQueryScripts);
+
+$(document).ready(function() {{
+    runJQueryScripts();
+}});

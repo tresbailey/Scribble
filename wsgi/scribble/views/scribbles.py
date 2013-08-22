@@ -7,14 +7,13 @@ from gridfs import NoFile
 from pymongo.objectid import ObjectId
 from PIL import Image
 from selenium import webdriver
-from scribble import db, scrib_grid, celery
+from scribble import db, scrib_grid, celery, HOME_URL
 from scribble.storage.models import Scribble
 from scribble.wrapper.store_wrappers import make_soup
 
 scribs = Blueprint('scribble_pages', __name__,
         template_folder='scribble/templates', static_folder='static')
 
-HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
 PHANTOM_HOME = os.getenv('OPENSHIFT_PHANTOM_DIR', '/home/tres/phantom/phantomjs-1.9.1-linux-x86_64/')
 
 def request_for_json():
@@ -29,23 +28,22 @@ def request_for_json():
 def create_capture(capture_id, scribble_id, args, kwargs):
     #scribble_url = url_for(*args, **kwargs)
     print "capture: %s " % capture_id
-    scribble_url = 'https://' + HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
+    # Causes problems between environments
+    scribble_url = HOME_URL +'/'+ kwargs['user_id'] +'/'+ kwargs['scribble_id']
     driver = webdriver.PhantomJS( PHANTOM_HOME + "bin/phantomjs")
     driver.get(scribble_url)
     scribble = Scribble.query.filter(
                 Scribble.mongo_id == ObjectId(scribble_id)
                 ).one()
-    
-    with open("scribble/static/js/scribble_frame.js") as scribjs:
-        with open("scribble/static/js/load_scripts.js") as loaderjs:
-            driver.execute_script(loaderjs.read())
-    driver.save_screenshot("scribble.png")
-    thumb = Image.open("scribble.png")
+    capt_file_name = "%s.png" % str(capture_id)
+    driver.save_screenshot(capt_file_name)
+    thumb = Image.open(capt_file_name)
     thumb.thumbnail((500, 2000), Image.ANTIALIAS)
-    thumb.save("scribble.png", "PNG")
-    with open("scribble.png") as scrib_shot:
+    thumb.save(capt_file_name, "PNG")
+    with open(capt_file_name) as scrib_shot:
         oid = scrib_grid.put(scrib_shot, _id=capture_id, content_type="image/png", filename="scribble")
-        return oid
+    os.remove(capt_file_name)
+    return oid
 
 
 @scribs.route('/<user_id>', methods=['POST'])
@@ -69,6 +67,7 @@ def new_scribble(user_id):
     scribble = scribble.filter_out_fields([])
     scribble['mongo_id'] = str(scribble['mongo_id'])
     scribble['scrib_shot'] = str(scribble['scrib_shot'])
+    print "Scribble: %s" % scribble['mongo_id']
     return json.dumps(scribble)
 
 

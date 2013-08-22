@@ -1,4 +1,4 @@
-
+// DEPRECATED!!!!!
 function load_scribble_frame() {
     var inner = $({html: %(html)});
     var el = $('body', %(frame).contents());

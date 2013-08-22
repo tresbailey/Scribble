@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup, Comment, Tag, NavigableString
 import re
 import urlparse
 
+from scribble import HOME_URL
+
 
 def find_all_ref_tags(tag):
      tag_val = tag.get('src', tag.get('href', tag.get('style')))
@@ -21,7 +23,8 @@ def modify_rels(tag, base_url):
     print 'Tag is has base_url of %s' % base_url
     parsed = urlparse.urlparse(base_url)                    
     path = [res for res in parsed.path.split('/') if res]
-    path.pop()
+    if "." in path[-1]:
+        path.pop()
     # Attrs that would have a relative path
     tag_attr = dict(img='src', script='src', a='href',
                     link='href')
@@ -76,6 +79,13 @@ def remove_scribble_elements(scribble_tag):
 
 
 def add_scribble_canvas(soup_obj, user_id, scribble_id):
+    script_tag = Tag(soup_obj, name="script")
+    script_tag['src'] = '//code.jquery.com/jquery-1.7.2.min.js'
+    soup_obj.body.insert(-1, script_tag)
+    script_tag = Tag(soup_obj, name="script")
+    script_text = NavigableString("var BASEURL='%s'" % HOME_URL)
+    script_tag.insert(0, script_text)
+    soup_obj.body.insert(-1, script_tag)
     with open("scribble/static/js/load_canvas.js") as scribjs:
         script_tag = Tag(soup_obj, name="script")
         script_text = NavigableString(scribjs.read().format( user_id, scribble_id))
