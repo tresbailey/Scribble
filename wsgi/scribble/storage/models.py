@@ -14,6 +14,7 @@ class Scruser(ScribData):
     first_name = db.StringField()
     last_name = db.StringField()
     email = db.StringField()
+    password = db.StringField()
     id_index = Index().ascending('user_id')
 
 class Scribble(ScribData):

@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
+    </head>
+    <body>
+        <form id="register" action="http://localhost/create_user" method="POST" />
+            eMail: <input type="email" name="email" />
+            User ID: <input type="text" name="user_id" />
+            Password: <input type="password" name="password" />
+            First Name: <input type="text" name="first_name" />
+            Last Name: <input type="text" name="last_name" />
+            <input type="submit" />
+        </form>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $("#register").submit( function() {
+                jdata = {}
+                $.each($('form').serializeArray(), function(ind, obj) { 
+                    jdata[obj.name] = obj.value;
+                });
+                jdata['openid'] = '';
+                //$('input[name="openid"]').val(JSON.stringify(jdata));
+                return true;
+            });
+        });
+        </script>
+    </body>
+</html>

@@ -3,6 +3,7 @@ __author__ = 'tresback'
 import json
 import os
 from flask import Blueprint, render_template, send_from_directory, request, jsonify, url_for
+from flask.ext.login import login_required
 from gridfs import NoFile
 from pymongo.objectid import ObjectId
 from PIL import Image
@@ -47,6 +48,7 @@ def create_capture(capture_id, scribble_id, args, kwargs):
 
 
 @scribs.route('/<user_id>', methods=['POST'])
+@login_required
 def new_scribble(user_id):
     print 'Got some request data from post' 
     base_html = request.data['base_html']

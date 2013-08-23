@@ -65,13 +65,24 @@ celery = make_celery(app)
 
 HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
 
+import os
+from flask.ext.login import LoginManager
+from flask.ext.openid import OpenID
+
+lm = LoginManager()
+lm.init_app(app)
+oid = OpenID( app, os.path.join('', 'tmp'))
+
+
 if 'http' not in HOME_URL:
     HOME_URL = "https://%s" % HOME_URL
 
 from scribble.views.scribbles import scribs
-from scribble.views.security import auths
+from scribble.views.users import users
+#from scribble.views.security import auths
 app.register_blueprint(scribs)
-app.register_blueprint(auths)
+app.register_blueprint(users)
+#app.register_blueprint(auths)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', threaded=True)

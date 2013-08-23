@@ -93,7 +93,6 @@ function handleMouseUp() {
     isMouseDown = false;
 }
 function setup_overlay() {
-if ( createjs) {
     init();
     $('#myCanvas').click(function(e) {
         if(!freehand) {
@@ -140,10 +139,29 @@ if ( createjs) {
             data: JSON.stringify(input),
             type: 'POST',
             contentType: 'application/json;charset=UTF-8',
-            dataType: 'application/json'
+            dataType: 'application/json',
+            success: function( data, textStatus) {
+                if ( data.redirect) {
+                 console.log(data.redirect);
+                } else {
+                    console.log(JSON.stringify(data));
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if ( jqXHR.status == 401 ) {
+                    $.ajax({ url: '{{ home }}/static/login.html',
+                    type: 'GET',
+                    success: function(data, textStatus) {
+                        $('.modal-body').html(data);
+                    },
+                    error: function(xhr, txtStat, errThrwn) {
+                        console.log(txtStat);
+                    }
+                    });
+                }
+            }
         });
     });
-}
 }
 
 function scrape_pixels() {
