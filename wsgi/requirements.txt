@@ -1,4 +1,5 @@
 Flask==0.8
+Flask-Login
 Flask-MongoAlchemy==0.5.3
 Flask-OAuth==0.11
 Flask-Script==0.5.3

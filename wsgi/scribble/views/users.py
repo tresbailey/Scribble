@@ -1,4 +1,5 @@
 import json
+import requests
 from flask import Blueprint, render_template, send_from_directory, request, jsonify, url_for, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from scribble import app, lm, oid
@@ -8,6 +9,18 @@ from scribble.storage.models import Scruser
 users = Blueprint('login_pages', __name__,
         template_folder='scribble/templates', static_folder='static')
 
+@users.route('/app_callback', methods=['POST'])
+def app_callback():
+    token = request.form['token']
+    engage_api_params = dict(
+        apiKey='f2e3e9fe58895c89a1bec0bd0d2326cf30ae4d5d',
+        token=token
+    )
+    user_data = requests.get("https://writeown.rpxnow.com/api/v2/auth_info", params=engage_api_params, proxies={'https': '192.109.190.88:8080'})
+    return user_data
+    #auth_info = user_data.json()
+    #name = auth_info['profile']['name']['formatted']
+    #return json.dumps(name)
 
 @users.route('/create_user', methods=['POST'])
 def create_user():
