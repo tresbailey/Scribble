@@ -47,8 +47,8 @@ def create_capture(capture_id, scribble_id, args, kwargs):
     return oid
 
 
-@scribs.route('/<user_id>', methods=['POST'])
 @login_required
+@scribs.route('/<user_id>', methods=['POST'])
 def new_scribble(user_id):
     print 'Got some request data from post' 
     base_html = request.data['base_html']
@@ -74,6 +74,7 @@ def new_scribble(user_id):
 
 
 @scribs.route('/<user_id>')
+@login_required
 def my_scribbles(user_id):
     scribbles = Scribble.query.filter(Scribble.user_id == user_id).all()
     scrib_list = list()

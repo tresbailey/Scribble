@@ -1,8 +1,8 @@
 import json
 import requests
-from flask import Blueprint, render_template, send_from_directory, request, jsonify, url_for, g
+from flask import Blueprint, render_template, send_from_directory, request, jsonify, url_for, g, redirect, make_response
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from scribble import app, lm, oid
+from scribble import app, lm, oid, HOME_URL
 from pymongo.objectid import ObjectId
 from scribble.storage.models import Scruser
 
@@ -16,11 +16,15 @@ def app_callback():
         apiKey='f2e3e9fe58895c89a1bec0bd0d2326cf30ae4d5d',
         token=token
     )
-    user_data = requests.get("https://writeown.rpxnow.com/api/v2/auth_info", params=engage_api_params, proxies={'https': '192.109.190.88:8080'})
-    return user_data
-    #auth_info = user_data.json()
-    #name = auth_info['profile']['name']['formatted']
-    #return json.dumps(name)
+    user_data = requests.get("https://writeown.rpxnow.com/api/v2/auth_info", params=engage_api_params)
+    auth_info = json.loads(user_data.text)
+    name = auth_info['profile']['name']['formatted']
+    user = Scruser.query.filter(
+            Scruser.open_id == auth_info['profile']['identifier']
+        ).one()
+    login_user(user, remember=True)
+    g.user = user
+    return redirect(HOME_URL +'/'+ user.get_id())
 
 @users.route('/create_user', methods=['POST'])
 def create_user():
@@ -30,19 +34,20 @@ def create_user():
 
 @lm.user_loader
 def load_user(id):
-   return  Scruser.query.filter(
-        Scruser.user_id == ObjectId(id)
+    return  Scruser.query.filter(
+        Scruser.mongo_id == ObjectId(id)
         ).one()
 
 
 @users.route('/login', methods=['GET', 'POST'])
 @oid.loginhandler
-def login_user():
+def login():
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('login_pages.index'))
-    #return oid.try_login(request.form.to_dict() )
-    return oid.try_login( 'https://me.yahoo.com' )
 
+    response = make_response(redirect(HOME_URL + '/static/register.html'))
+    response.headers['Next'] = request.args['next']
+    return response
 
 @oid.after_login
 def after_login(resp):

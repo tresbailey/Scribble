@@ -15,7 +15,22 @@ class Scruser(ScribData):
     last_name = db.StringField()
     email = db.StringField()
     password = db.StringField()
+    open_id = db.StringField()
     id_index = Index().ascending('user_id')
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.mongo_id)
+
+
 
 class Scribble(ScribData):
     user_id = db.StringField()

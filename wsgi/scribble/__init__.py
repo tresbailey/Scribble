@@ -71,6 +71,7 @@ from flask.ext.openid import OpenID
 
 lm = LoginManager()
 lm.init_app(app)
+lm.login_view = 'login_pages.login'
 oid = OpenID( app, os.path.join('', 'tmp'))
 
 
