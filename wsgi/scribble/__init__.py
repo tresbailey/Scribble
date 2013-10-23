@@ -59,8 +59,10 @@ def make_celery(app):
     """
     return celery
 
-app.config['CELERY_BROKER_URL'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
-app.config['CELERY_RESULT_BACKEND'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
+#app.config['CELERY_BROKER_URL'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
+#app.config['CELERY_RESULT_BACKEND'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
+app.config['CELERY_BROKER_URL'] = 'redis://%s:%d/0' % (app.config['OPENSHIFT_REDIS_HOST'], app.config['OPENSHIFT_REDIS_PORT'])
+app.config['CELERY_RESULT_BACKEND'] = 'redis://%s:%d/0' % (app.config['OPENSHIFT_REDIS_HOST'], app.config['OPENSHIFT_REDIS_PORT'])
 celery = make_celery(app)
 
 HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
