@@ -74,7 +74,6 @@ lm.init_app(app)
 lm.login_view = 'login_pages.login'
 oid = OpenID( app, os.path.join('', 'tmp'))
 
-
 if 'http' not in HOME_URL:
     HOME_URL = "https://%s" % HOME_URL
 
