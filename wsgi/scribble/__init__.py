@@ -37,6 +37,8 @@ app.config['MONGOALCHEMY_DATABASE'] = os.environ.get('MONGO_DB', 'scribble')
 app.config['MONGOALCHEMY_USER'] = os.environ.get('OPENSHIFT_MONGODB_DB_USERNAME')
 app.config['MONGOALCHEMY_PASSWORD'] = os.environ.get('OPENSHIFT_MONGODB_DB_PASSWORD')
 app.config['MONGOALCHEMY_SERVER_AUTH'] = True
+app.config['REDIS_SERVER'] = os.environ.get('OPENSHIFT_REDIS_HOST', 'localhost')
+app.config['REDIS_PORT'] = int(os.environ.get('OPENSHIFT_REDIS_PORT', '6379'))
 
 db = MongoAlchemy(app)
 
@@ -61,8 +63,8 @@ def make_celery(app):
 
 #app.config['CELERY_BROKER_URL'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
 #app.config['CELERY_RESULT_BACKEND'] = 'mongodb://%s:%d/celery_tasks' % (app.config['MONGOALCHEMY_SERVER'], app.config['MONGOALCHEMY_PORT'])
-app.config['CELERY_BROKER_URL'] = 'redis://%s:%d/0' % (app.config['OPENSHIFT_REDIS_HOST'], app.config['OPENSHIFT_REDIS_PORT'])
-app.config['CELERY_RESULT_BACKEND'] = 'redis://%s:%d/0' % (app.config['OPENSHIFT_REDIS_HOST'], app.config['OPENSHIFT_REDIS_PORT'])
+app.config['CELERY_BROKER_URL'] = 'redis://%s:%d/0' % (app.config['REDIS_SERVER'], app.config['REDIS_PORT'])
+app.config['CELERY_RESULT_BACKEND'] = 'redis://%s:%d/0' % (app.config['REDIS_SERVER'], app.config['REDIS_PORT'])
 celery = make_celery(app)
 
 HOME_URL = os.getenv('OPENSHIFT_GEAR_DNS', 'http://localhost')
