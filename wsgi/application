@@ -2,6 +2,7 @@
 import os
 
 virtenv = os.environ['OPENSHIFT_HOMEDIR'] + '/python/virtenv/'
+
 os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.7/site-packages')
 os.environ['PATH'] = os.environ['PATH'] +','+ os.environ['OPENSHIFT_REPO_DIR'] +'/wsgi'
 virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
