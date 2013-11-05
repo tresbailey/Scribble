@@ -1,12 +1,13 @@
 <html>
     <head>
         <script src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
+        <script src="js/base_url.js" ></script>
 <script type="text/javascript">
 (function() {
     if (typeof window.janrain !== 'object') window.janrain = {};
     if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
     
-    janrain.settings.tokenUrl = 'http://localhost/app_callback';
+    janrain.settings.tokenUrl = BASEURL + 'app_callback';
 
     function isReady() { janrain.ready = true; };
     if (document.addEventListener) {
