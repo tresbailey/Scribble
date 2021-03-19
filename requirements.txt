@@ -4,7 +4,7 @@ Flask-MongoAlchemy==0.5.3
 Flask-OAuth==0.11
 Flask-OpenID==1.1.1
 Flask-Script==0.5.3
-Jinja2==2.6
+Jinja2==2.11.3
 MongoAlchemy==0.11
 PIL==1.1.7
 Werkzeug==0.8.3
