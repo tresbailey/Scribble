@@ -19,7 +19,7 @@ httplib2==0.7.4
 kombu==2.5.12
 lxml==2.3.4
 nose==1.0.0
-numpy==1.7.1
+numpy==1.21.0
 oauth2==1.5.211
 pyOpenSSL==0.10
 pymongo==2.1.1
