@@ -26,7 +26,7 @@ setup(name='WriteOwn', version='1.0',
         'anyjson==0.3.3', 'beautifulsoup4==4.0.5', 
         'billiard==2.7.3.34', 'celery==3.0.24', 'certifi==0.0.8',
         'chardet==2.1.1', 'httplib2==0.7.4', 'kombu==2.5.15',
-        'lxml==2.3.4', 'nose==1.0.0', 'requests==0.11.1', 
+        'lxml==2.3.4', 'nose==1.0.0', 'requests==2.20.0', 
         'selenium==2.33.0', 'six==1.3.0']
      )
 
