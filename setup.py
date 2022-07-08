@@ -18,7 +18,7 @@ setup(name='WriteOwn', version='1.0',
       #  for the specific client drivers/modules your application needs.
       install_requires=[ 'Flask==0.8', 'MongoAlchemy==0.11',
         'Werkzeug==0.8.3', 'Flask-Login==0.2.7', 'Flask-OpenId==1.1.1',
-        'pymongo==2.1.1', 'python-dateutil==1.5', 
+        'pymongo==2.5.2', 'python-dateutil==1.5', 
         'redis==2.4.11', 'simplejson==2.1.6', 
         'wsgiref==0.1.2', 'Flask-Principal==0.4.0',
         'Flask-MongoAlchemy==0.5.3', 'flask_oauth==0.12',
