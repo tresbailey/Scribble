@@ -12,7 +12,7 @@ anyjson==0.3.3
 beautifulsoup4==4.0.5
 billiard==2.7.3.31
 celery==3.0.21
-certifi==0.0.8
+certifi==2022.12.7
 chardet==2.1.1
 httplib2==0.7.4
 kombu==2.5.12
